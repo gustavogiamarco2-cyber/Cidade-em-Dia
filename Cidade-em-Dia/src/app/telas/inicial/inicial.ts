@@ -4,8 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-inicial',
   standalone: false,
   styleUrl: './inicial.scss',
-  templateUrl: './inicial.html',
-   template: `<p>Telas funcionando!</p>`
+  templateUrl: './inicial.html'
 })
 export class Inicial {
 
