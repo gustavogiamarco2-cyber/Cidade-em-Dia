@@ -1,0 +1,89 @@
+
+<div class="layout">
+
+  <app-menu-lateral></app-menu-lateral>
+
+  <main class="conteudo">
+
+    <div class="pagina-categorias">
+
+      <div class="cabecalho-categorias">
+        <h1>Categorias</h1>
+
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="novaCategoria()">
+          + Nova categoria
+        </button>
+      </div>
+
+      <table
+        mat-table
+        [dataSource]="categorias"
+        class="tabela-categorias">
+
+        <!-- Coluna Categoria -->
+        <ng-container matColumnDef="nome">
+          <th mat-header-cell *matHeaderCellDef>
+            Categoria
+          </th>
+
+          <td mat-cell *matCellDef="let categoria">
+            {{ categoria.nome }}
+          </td>
+        </ng-container>
+
+        <!-- Coluna Situação -->
+        <ng-container matColumnDef="situacao">
+          <th mat-header-cell *matHeaderCellDef>
+            Situação
+          </th>
+
+          <td mat-cell *matCellDef="let categoria">
+            {{ categoria.ativa ? 'Ativa' : 'Inativa' }}
+          </td>
+        </ng-container>
+
+        <!-- Coluna Ações -->
+        <ng-container matColumnDef="acoes">
+          <th mat-header-cell *matHeaderCellDef>
+            Ações
+          </th>
+
+          <td mat-cell *matCellDef="let categoria">
+
+            <button
+              mat-button
+              (click)="editarCategoria(categoria)">
+              Editar
+            </button>
+
+            <button
+              mat-button
+              (click)="alternarSituacao(categoria)">
+              {{ categoria.ativa ? 'Desativar' : 'Ativar' }}
+            </button>
+
+          </td>
+        </ng-container>
+
+        <!-- Cabeçalho -->
+        <tr
+          mat-header-row
+          *matHeaderRowDef="colunasExibidas">
+        </tr>
+
+        <!-- Linhas -->
+        <tr
+          mat-row
+          *matRowDef="let linha; columns: colunasExibidas">
+        </tr>
+
+      </table>
+
+    </div>
+
+  </main>
+
+</div>

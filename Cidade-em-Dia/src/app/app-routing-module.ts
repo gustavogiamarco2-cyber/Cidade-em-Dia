@@ -11,6 +11,10 @@ const routes: Routes = [
     path: 'telas',
     loadChildren: () => import('./telas/telas-module').then(m => m.TelasModule),
   },
+  {
+    path: 'gerenciamento',
+    loadChildren: () => import('./gerenciamento/gerenciamento-module').then(m => m.GerenciamentoModule),
+  },
 ];
 
 @NgModule({
