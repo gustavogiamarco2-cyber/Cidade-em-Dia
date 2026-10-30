@@ -1,10 +1,8 @@
-import { Component } from '@angular/core';
-
-export interface CategoriaDados {
-  id: number;
-  nome: string;
-  ativa: boolean;
-}
+import { Component, inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { CategoriaService } from '../../shared/categoria-service';
+import { CategoriaDados } from '../../shared/models';
+import { CategoriaDialogo } from '../categoria-dialogo/categoria-dialogo';
 
 @Component({
   selector: 'app-categoria',
@@ -13,45 +11,27 @@ export interface CategoriaDados {
   templateUrl: './categoria.html',
 })
 export class Categoria {
+  private readonly servico = inject(CategoriaService);
+  private readonly dialogo = inject(MatDialog);
 
   colunasExibidas = ['nome', 'situacao', 'acoes'];
-
-  categorias: CategoriaDados[] = [
-    { id: 1, nome: 'Buraco', ativa: true },
-    { id: 2, nome: 'Iluminação pública', ativa: true },
-    { id: 3, nome: 'Limpeza urbana', ativa: false },
-    { id: 4, nome: 'Sinalização', ativa: true },
-  ];
+  categorias = this.servico.lista;
 
   novaCategoria(): void {
-    const nome = prompt('Digite o nome da nova categoria:');
-
-    if (nome && nome.trim()) {
-      this.categorias = [...this.categorias, {
-        id: Date.now(),
-        nome: nome.trim(),
-        ativa: true,
-      }];
-    }
+    this.dialogo
+      .open<CategoriaDialogo, { nome: string }, string>(CategoriaDialogo, { data: { nome: '' } })
+      .afterClosed()
+      .subscribe(nome => nome && this.servico.adicionar(nome));
   }
 
   editarCategoria(categoria: CategoriaDados): void {
-    const nome = prompt('Digite o novo nome:', categoria.nome);
-
-    if (nome && nome.trim()) {
-      this.categorias = this.categorias.map(item =>
-        item.id === categoria.id
-          ? { ...item, nome: nome.trim() }
-          : item,
-      );
-    }
+    this.dialogo
+      .open<CategoriaDialogo, { nome: string }, string>(CategoriaDialogo, { data: { nome: categoria.nome } })
+      .afterClosed()
+      .subscribe(nome => nome && this.servico.renomear(categoria.id, nome));
   }
 
   alternarSituacao(categoria: CategoriaDados): void {
-    this.categorias = this.categorias.map(item =>
-      item.id === categoria.id
-        ? { ...item, ativa: !item.ativa }
-        : item,
-    );
+    this.servico.alternarSituacao(categoria.id);
   }
 }

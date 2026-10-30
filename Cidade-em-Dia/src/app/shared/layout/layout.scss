@@ -1,0 +1,26 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+app-menu-lateral {
+  display: block;
+  flex: 0 0 180px;
+}
+
+.conteudo {
+  flex: 1;
+  min-width: 0;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  app-menu-lateral {
+    flex: none;
+  }
+}

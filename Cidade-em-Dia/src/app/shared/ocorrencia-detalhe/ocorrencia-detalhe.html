@@ -1,0 +1,47 @@
+@if (ocorrencia(); as o) {
+  <section class="detalhe">
+    <h1>{{ o.titulo }}</h1>
+
+    <div class="foto">
+      @if (o.foto) {
+        <img [src]="o.foto" alt="Foto da ocorrência" />
+      } @else {
+        Foto da ocorrência
+      }
+    </div>
+
+    <p>Descrição: {{ o.descricao }}</p>
+    <p>Categoria: {{ o.categoria }}</p>
+    <p>
+      Endereço: {{ o.rua }}, {{ o.numero }} — {{ o.bairro }}, {{ o.cidade }}
+      @if (o.referencia) { ({{ o.referencia }}) }
+    </p>
+    <p>Urgência: {{ o.urgencia }}</p>
+    <p>Prioridade: {{ o.prioridade }}</p>
+    <p>Confirmações: {{ o.confirmacoes }}</p>
+    <p>Status atual: <strong>{{ o.status }}</strong></p>
+
+    @if (gestao) {
+      <mat-form-field appearance="outline" class="campo">
+        <mat-label>Alterar status</mat-label>
+        <mat-select [(value)]="novoStatus">
+          @for (s of statusOpcoes; track s) {
+            <mat-option [value]="s">{{ s }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-flat-button type="button" (click)="atualizarStatus()">Atualizar status</button>
+      </div>
+    } @else {
+      <div>
+        <button mat-flat-button type="button" (click)="confirmar()">Confirmar ocorrência</button>
+      </div>
+    }
+
+    <button mat-button type="button" class="voltar" (click)="voltar()">Voltar</button>
+  </section>
+} @else {
+  <p>Ocorrência não encontrada.</p>
+  <button mat-button type="button" (click)="voltar()">Voltar</button>
+}

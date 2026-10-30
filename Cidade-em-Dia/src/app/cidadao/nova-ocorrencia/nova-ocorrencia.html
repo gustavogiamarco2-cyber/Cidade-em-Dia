@@ -1,0 +1,72 @@
+<h1>Nova ocorrência</h1>
+
+<form #f="ngForm" (ngSubmit)="registrar()">
+  <mat-form-field appearance="outline">
+    <mat-label>Categoria</mat-label>
+    <mat-select name="categoria" required [(ngModel)]="dados.categoria">
+      @for (c of categorias(); track c.id) {
+        <mat-option [value]="c.nome">{{ c.nome }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Descrição</mat-label>
+    <textarea matInput name="descricao" rows="4" required [(ngModel)]="dados.descricao"></textarea>
+    <mat-error>Descreva o problema.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Urgência</mat-label>
+    <mat-select name="urgencia" required [(ngModel)]="dados.urgencia">
+      @for (n of niveis; track n) {
+        <mat-option [value]="n">{{ n }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <div class="foto">
+    <span>Foto</span>
+    <input #arquivo type="file" accept="image/*" hidden (change)="selecionarFoto($event)" />
+    <button mat-stroked-button type="button" (click)="arquivo.click()">Adicionar foto</button>
+    @if (nomeFoto) { <small>{{ nomeFoto }}</small> }
+  </div>
+
+  <h2>Localização</h2>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Rua</mat-label>
+    <input matInput name="rua" required [(ngModel)]="dados.rua" />
+    <mat-error>Informe a rua.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Número</mat-label>
+    <input matInput name="numero" required [(ngModel)]="dados.numero" />
+    <mat-error>Informe o número.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Bairro</mat-label>
+    <input matInput name="bairro" required [(ngModel)]="dados.bairro" />
+    <mat-error>Informe o bairro.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Cidade</mat-label>
+    <input matInput name="cidade" required [(ngModel)]="dados.cidade" />
+    <mat-error>Informe a cidade.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Ponto de referência (opcional)</mat-label>
+    <input matInput name="referencia" [(ngModel)]="dados.referencia" />
+  </mat-form-field>
+
+  <p class="aviso">A localização será identificada pelo endereço informado.</p>
+
+  <div class="acoes">
+    <button mat-stroked-button type="button" (click)="cancelar()">Cancelar</button>
+    <button mat-flat-button type="submit" [disabled]="f.invalid">Registrar ocorrência</button>
+  </div>
+</form>

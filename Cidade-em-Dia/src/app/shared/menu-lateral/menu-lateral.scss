@@ -1,6 +1,5 @@
-
 .menu-lateral {
-  width: 158px;
+  width: 180px;
   min-height: 100vh;
   padding: 20px 12px;
   box-sizing: border-box;
@@ -8,24 +7,27 @@
   color: #ffffff;
 }
 
-.menu-lateral h2 {
-  margin: 0 0 28px;
+h2 {
+  margin: 0 0 16px;
   font-size: 16px;
   font-weight: 700;
+  color: #1683e8;
 }
 
-.menu-lateral nav {
+nav {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 8px;
 }
 
-.menu-lateral a {
-  color: #1683e8;
-  text-decoration: none;
-  font-size: 14px;
-}
+a[mat-flat-button] {
+  justify-content: flex-start;
+  border-radius: 2px;
+  text-align: left;
+  white-space: normal;
 
-.menu-lateral a:hover {
-  color: #ffffff;
+  &.ativo {
+    outline: 2px solid #ffffff;
+    outline-offset: -2px;
+  }
 }

@@ -1,0 +1,31 @@
+<h1>Mapa de ocorrências</h1>
+
+<div class="mapa" role="group" aria-label="Mapa ilustrativo de ocorrências">
+  @for (o of ocorrencias(); track o.id) {
+    <button
+      type="button"
+      class="pino"
+      [class.ativo]="selecionadaId() === o.id"
+      [style.left.%]="esquerda(o.id)"
+      [style.top.%]="topo(o.id)"
+      [attr.aria-label]="o.titulo"
+      (click)="selecionadaId.set(o.id)">
+      {{ o.id }}
+    </button>
+  }
+</div>
+
+@if (selecionada(); as o) {
+  <mat-card appearance="outlined" class="cartao">
+    <mat-card-content>
+      <strong>{{ o.titulo }}</strong><br />
+      Endereço: {{ o.rua }}, {{ o.numero }} — {{ o.bairro }}<br />
+      Status: {{ o.status }}
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-flat-button [routerLink]="['/cidadao/ocorrencia', o.id]">Ver detalhes</a>
+    </mat-card-actions>
+  </mat-card>
+} @else {
+  <p>Selecione um marcador para ver a ocorrência.</p>
+}

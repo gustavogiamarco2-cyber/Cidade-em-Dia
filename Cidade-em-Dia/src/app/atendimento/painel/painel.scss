@@ -1,0 +1,20 @@
+h1 {
+  margin: 0 0 12px;
+  font-size: 22px;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 12px 0;
+
+  .ativo {
+    text-decoration: underline;
+    font-weight: 700;
+  }
+}
+
+.cartao {
+  margin-bottom: 12px;
+}

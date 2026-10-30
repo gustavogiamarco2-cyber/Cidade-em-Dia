@@ -1,0 +1,28 @@
+<p>Olá!</p>
+<h1>Minhas ocorrências</h1>
+
+<a mat-flat-button routerLink="/cidadao/nova">+ Nova ocorrência</a>
+
+<div class="filtros" role="group" aria-label="Filtrar por status">
+  @for (f of filtros; track f) {
+    <button mat-button type="button" [class.ativo]="filtro() === f" (click)="filtro.set(f)">{{ f }}</button>
+  }
+</div>
+
+@for (o of ocorrencias(); track o.id) {
+  <mat-card appearance="outlined" class="cartao">
+    <mat-card-content>
+      <strong>{{ o.titulo }}</strong><br />
+      Categoria: {{ o.categoria }}<br />
+      Endereço: {{ o.rua }}, {{ o.numero }}<br />
+      Urgência: {{ o.urgencia }}<br />
+      Prioridade: {{ o.prioridade }}<br />
+      Status: {{ o.status }}
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-flat-button [routerLink]="['/cidadao/ocorrencia', o.id]">Ver detalhes</a>
+    </mat-card-actions>
+  </mat-card>
+} @empty {
+  <p>Nenhuma ocorrência encontrada.</p>
+}

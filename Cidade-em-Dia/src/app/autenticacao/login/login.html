@@ -1,0 +1,26 @@
+<main class="autenticacao">
+  <h1>Entrar na sua conta</h1>
+
+  <form #f="ngForm" (ngSubmit)="entrar()">
+    <mat-form-field appearance="outline">
+      <mat-label>E-mail</mat-label>
+      <input matInput type="email" name="email" required email autocomplete="username" [(ngModel)]="email" #campoEmail="ngModel" />
+      @if (campoEmail.hasError('required')) {
+        <mat-error>Informe o e-mail.</mat-error>
+      } @else if (campoEmail.hasError('email')) {
+        <mat-error>E-mail inválido.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Senha</mat-label>
+      <input matInput type="password" name="senha" required autocomplete="current-password" [(ngModel)]="senha" />
+      <mat-error>Informe a senha.</mat-error>
+    </mat-form-field>
+
+    <button mat-flat-button type="submit" [disabled]="f.invalid">Entrar</button>
+  </form>
+
+  <p>Não possui uma conta? <a routerLink="/auth/cadastro">Criar conta</a></p>
+  <p class="dica">Demonstração: e-mails com "atendente" ou "admin" acessam esses perfis.</p>
+</main>

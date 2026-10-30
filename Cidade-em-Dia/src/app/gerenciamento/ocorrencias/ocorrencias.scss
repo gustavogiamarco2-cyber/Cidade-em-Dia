@@ -1,0 +1,14 @@
+h1 {
+  margin: 0 0 16px;
+  font-size: 22px;
+}
+
+.filtros {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0 12px;
+}
+
+.tabela {
+  width: 100%;
+}

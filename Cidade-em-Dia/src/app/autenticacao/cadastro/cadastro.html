@@ -1,0 +1,43 @@
+<main class="autenticacao">
+  <h1>Criar conta</h1>
+
+  <form #f="ngForm" (ngSubmit)="criar()">
+    <mat-form-field appearance="outline">
+      <mat-label>Nome completo</mat-label>
+      <input matInput name="nome" required autocomplete="name" [(ngModel)]="nome" />
+      <mat-error>Informe o nome.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>E-mail</mat-label>
+      <input matInput type="email" name="email" required email autocomplete="email" [(ngModel)]="email" #campoEmail="ngModel" />
+      @if (campoEmail.hasError('required')) {
+        <mat-error>Informe o e-mail.</mat-error>
+      } @else if (campoEmail.hasError('email')) {
+        <mat-error>E-mail inválido.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Senha</mat-label>
+      <input matInput type="password" name="senha" required minlength="6" autocomplete="new-password" [(ngModel)]="senha" #campoSenha="ngModel" />
+      @if (campoSenha.hasError('required')) {
+        <mat-error>Informe a senha.</mat-error>
+      } @else {
+        <mat-error>Mínimo de 6 caracteres.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Confirmar senha</mat-label>
+      <input matInput type="password" name="confirmacao" required autocomplete="new-password" [(ngModel)]="confirmacao" />
+      @if (confirmacao && confirmacao !== senha) {
+        <mat-hint>As senhas não conferem.</mat-hint>
+      }
+    </mat-form-field>
+
+    <button mat-flat-button type="submit" [disabled]="f.invalid || senha !== confirmacao">Criar conta</button>
+  </form>
+
+  <p>Já possui uma conta? <a routerLink="/auth/login">Entrar</a></p>
+</main>

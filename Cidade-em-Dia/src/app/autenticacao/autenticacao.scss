@@ -1,0 +1,29 @@
+.autenticacao {
+  max-width: 360px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+h1 {
+  margin: 0 0 16px;
+  font-size: 22px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+button {
+  align-self: flex-start;
+}
+
+.dica {
+  font-size: 12px;
+  opacity: 0.7;
+}

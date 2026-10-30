@@ -1,12 +1,6 @@
-import { Component } from '@angular/core';
-
-export interface UsuarioDados {
-  id: number;
-  nome: string;
-  email: string;
-  perfil: string;
-  ativo: boolean;
-}
+import { Component, inject } from '@angular/core';
+import { UsuarioService } from '../../shared/usuario-service';
+import { UsuarioDados } from '../../shared/models';
 
 @Component({
   selector: 'app-usuario',
@@ -15,35 +9,12 @@ export interface UsuarioDados {
   templateUrl: './usuario.html',
 })
 export class Usuario {
- 
-   colunasExibidas = [
-    'nome',
-    'email',
-    'perfil',
-    'situacao',
-    'acao'
-  ];
+  private readonly servico = inject(UsuarioService);
 
-   usuarios: UsuarioDados[] = [
-    {
-      id: 1,
-      nome: 'Ana Silva',
-      email: 'ana@email.com',
-      perfil: 'Cidadão',
-      ativo: true
-    },
-    {
-      id: 2,
-      nome: 'Carlos Souza',
-      email: 'carlos@email.com',
-      perfil: 'Atendente',
-      ativo: false
-    }
-  ];
+  colunasExibidas = ['nome', 'email', 'perfil', 'situacao', 'acao'];
+  usuarios = this.servico.lista;
 
   alternarSituacao(usuario: UsuarioDados): void {
-    usuario.ativo = !usuario.ativo;
+    this.servico.alternarSituacao(usuario.id);
   }
-
 }
-

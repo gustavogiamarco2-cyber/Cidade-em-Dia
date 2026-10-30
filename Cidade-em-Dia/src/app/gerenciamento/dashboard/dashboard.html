@@ -1,0 +1,76 @@
+<h1>Dashboard Administrativo</h1>
+
+<div class="resumo">
+  <mat-card appearance="outlined"><mat-card-content>Total de ocorrências<strong>{{ total() }}</strong></mat-card-content></mat-card>
+  <mat-card appearance="outlined"><mat-card-content>Em análise<strong>{{ emAnalise() }}</strong></mat-card-content></mat-card>
+  <mat-card appearance="outlined"><mat-card-content>Em andamento<strong>{{ emAndamento() }}</strong></mat-card-content></mat-card>
+  <mat-card appearance="outlined"><mat-card-content>Resolvidas<strong>{{ resolvidas() }}</strong></mat-card-content></mat-card>
+</div>
+
+<h2>Ocorrências por categoria</h2>
+@for (c of porCategoria(); track c.rotulo) {
+  <div class="barra-linha">
+    <span>{{ c.rotulo }} ({{ c.total }})</span>
+    <div class="barra" [style.width.%]="c.largura"></div>
+  </div>
+}
+
+<h2>Filtros</h2>
+<div class="filtros">
+  <mat-form-field appearance="outline">
+    <mat-label>Categoria</mat-label>
+    <mat-select [(value)]="categoria">
+      <mat-option value="">Todas</mat-option>
+      @for (c of categorias(); track c.id) { <mat-option [value]="c.nome">{{ c.nome }}</mat-option> }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Status</mat-label>
+    <mat-select [(value)]="status">
+      <mat-option value="">Todos</mat-option>
+      @for (s of statusOpcoes; track s) { <mat-option [value]="s">{{ s }}</mat-option> }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Prioridade</mat-label>
+    <mat-select [(value)]="prioridade">
+      <mat-option value="">Todas</mat-option>
+      @for (n of niveis; track n) { <mat-option [value]="n">{{ n }}</mat-option> }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Região</mat-label>
+    <mat-select [(value)]="bairro">
+      <mat-option value="">Todas</mat-option>
+      @for (b of bairros(); track b) { <mat-option [value]="b">{{ b }}</mat-option> }
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<table mat-table [dataSource]="ocorrencias()" class="tabela">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>ID</th>
+    <td mat-cell *matCellDef="let o">
+      <a [routerLink]="['/gerenciamento/ocorrencia', o.id]">#{{ o.id.toString().padStart(3, '0') }}</a>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="categoria">
+    <th mat-header-cell *matHeaderCellDef>Categoria</th>
+    <td mat-cell *matCellDef="let o">{{ o.categoria }}</td>
+  </ng-container>
+  <ng-container matColumnDef="prioridade">
+    <th mat-header-cell *matHeaderCellDef>Prioridade</th>
+    <td mat-cell *matCellDef="let o">{{ o.prioridade }}</td>
+  </ng-container>
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <td mat-cell *matCellDef="let o">{{ o.status }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+  <tr mat-row *matRowDef="let linha; columns: colunas"></tr>
+  <tr class="mat-row" *matNoDataRow><td class="mat-cell" colspan="4">Nenhuma ocorrência encontrada.</td></tr>
+</table>

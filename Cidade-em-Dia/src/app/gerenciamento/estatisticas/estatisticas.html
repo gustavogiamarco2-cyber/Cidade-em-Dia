@@ -1,0 +1,12 @@
+<h1>Estatísticas</h1>
+<p>Taxa de resolução: <strong>{{ taxaResolucao() }}%</strong></p>
+
+@for (g of grupos(); track g.titulo) {
+  <h2>{{ g.titulo }}</h2>
+  @for (d of g.dados; track d.rotulo) {
+    <div class="barra-linha">
+      <span>{{ d.rotulo }} ({{ d.total }})</span>
+      <div class="barra" [style.width.%]="d.largura"></div>
+    </div>
+  }
+}
