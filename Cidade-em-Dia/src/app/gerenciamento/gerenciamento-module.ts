@@ -10,23 +10,23 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
-import { SharedModule } from '../shared/shared-module';
+import { ModuloCompartilhado } from '../compartilhado/modulo-compartilhado';
 import { GerenciamentoRoutingModule } from './gerenciamento-routing-module';
 import { Categoria } from './categoria/categoria';
 import { CategoriaDialogo } from './categoria-dialogo/categoria-dialogo';
 import { Usuario } from './usuario/usuario';
-import { Dashboard } from './dashboard/dashboard';
+import { Painel } from './painel/painel';
 import { Ocorrencias } from './ocorrencias/ocorrencias';
 import { Estatisticas } from './estatisticas/estatisticas';
 
 @NgModule({
-  declarations: [Categoria, CategoriaDialogo, Usuario, Dashboard, Ocorrencias, Estatisticas],
+  declarations: [Categoria, CategoriaDialogo, Usuario, Painel, Ocorrencias, Estatisticas],
   imports: [
     CommonModule,
     FormsModule,
     RouterModule,
     GerenciamentoRoutingModule,
-    SharedModule,
+    ModuloCompartilhado,
     MatTableModule,
     MatButtonModule,
     MatCardModule,

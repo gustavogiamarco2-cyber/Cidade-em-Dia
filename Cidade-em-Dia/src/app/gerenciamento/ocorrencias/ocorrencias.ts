@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { CategoriaService } from '../../shared/categoria-service';
-import { NIVEIS, STATUS } from '../../shared/models';
-import { OcorrenciaService } from '../../shared/ocorrencia-service';
+import { CategoriaService } from '../../compartilhado/categoria-service';
+import { NIVEIS, STATUS } from '../../compartilhado/models';
+import { OcorrenciaService } from '../../compartilhado/ocorrencia-service';
 
 @Component({
   selector: 'app-ocorrencias',

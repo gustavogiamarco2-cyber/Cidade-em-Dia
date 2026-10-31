@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { provideRouter } from '@angular/router';
-import { MenuLateral } from '../../shared/menu-lateral/menu-lateral';
+import { MenuLateral } from '../../compartilhado/menu-lateral/menu-lateral';
 import { Usuario } from './usuario';
 
 describe('Usuario', () => {
@@ -10,6 +10,7 @@ describe('Usuario', () => {
   let fixture: ComponentFixture<Usuario>;
 
   beforeEach(async () => {
+    TestBed.resetTestingModule();
     await TestBed.configureTestingModule({
       declarations: [Usuario, MenuLateral],
       imports: [MatTableModule, MatButtonModule],
@@ -32,6 +33,6 @@ describe('Usuario', () => {
 
     component.alternarSituacao(usuario);
 
-    expect(usuario.ativo).toBe(false);
+    expect(component.usuarios()[0].ativo).toBe(false);
   });
 });

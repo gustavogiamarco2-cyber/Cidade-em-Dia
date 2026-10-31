@@ -1,15 +1,15 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { CategoriaService } from '../../shared/categoria-service';
-import { NIVEIS } from '../../shared/models';
-import { OcorrenciaService } from '../../shared/ocorrencia-service';
+import { CategoriaService } from '../../compartilhado/categoria-service';
+import { NIVEIS } from '../../compartilhado/models';
+import { OcorrenciaService } from '../../compartilhado/ocorrencia-service';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-painel',
   standalone: false,
-  styleUrl: './dashboard.scss',
-  templateUrl: './dashboard.html',
+  styleUrl: './painel.scss',
+  templateUrl: './painel.html',
 })
-export class Dashboard {
+export class Painel {
   private readonly servico = inject(OcorrenciaService);
 
   readonly categorias = inject(CategoriaService).lista;

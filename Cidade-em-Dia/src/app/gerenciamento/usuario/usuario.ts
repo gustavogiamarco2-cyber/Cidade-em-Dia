@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { UsuarioService } from '../../shared/usuario-service';
-import { UsuarioDados } from '../../shared/models';
+import { UsuarioService } from '../../compartilhado/usuario-service';
+import { UsuarioDados } from '../../compartilhado/models';
 
 @Component({
   selector: 'app-usuario',

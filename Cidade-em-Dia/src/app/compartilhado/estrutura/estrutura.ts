@@ -25,11 +25,11 @@ const MENUS: Record<Perfil, ItemMenu[]> = {
 };
 
 @Component({
-  selector: 'app-layout',
+  selector: 'app-estrutura',
   standalone: false,
-  styleUrl: './layout.scss',
-  templateUrl: './layout.html',
+  styleUrl: './estrutura.scss',
+  templateUrl: './estrutura.html',
 })
-export class Layout {
+export class Estrutura {
   itens = MENUS[inject(ActivatedRoute).snapshot.data['perfil'] as Perfil];
 }

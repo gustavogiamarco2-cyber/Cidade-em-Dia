@@ -1,14 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../shared/auth-service';
+import { AuthService } from '../../compartilhado/auth-service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-entrar',
   standalone: false,
   styleUrl: '../autenticacao.scss',
-  templateUrl: './login.html',
+  templateUrl: './entrar.html',
 })
-export class Login {
+export class Entrar {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
 

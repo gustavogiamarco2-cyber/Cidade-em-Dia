@@ -4,16 +4,16 @@ import { RouterModule, Routes } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
-import { SharedModule } from '../shared/shared-module';
-import { Layout } from '../shared/layout/layout';
-import { OcorrenciaDetalhe } from '../shared/ocorrencia-detalhe/ocorrencia-detalhe';
-import { perfilGuard } from '../shared/perfil-guard';
+import { ModuloCompartilhado } from '../compartilhado/modulo-compartilhado';
+import { Estrutura } from '../compartilhado/estrutura/estrutura';
+import { OcorrenciaDetalhe } from '../compartilhado/ocorrencia-detalhe/ocorrencia-detalhe';
+import { perfilGuard } from '../compartilhado/perfil-guard';
 import { Painel } from './painel/painel';
 
 const routes: Routes = [
   {
     path: '',
-    component: Layout,
+    component: Estrutura,
     canActivate: [perfilGuard],
     data: { perfil: 'atendente' },
     children: [
@@ -26,6 +26,6 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [Painel],
-  imports: [CommonModule, RouterModule.forChild(routes), SharedModule, MatButtonModule, MatCardModule],
+  imports: [CommonModule, RouterModule.forChild(routes), ModuloCompartilhado, MatButtonModule, MatCardModule],
 })
 export class AtendimentoModule {}

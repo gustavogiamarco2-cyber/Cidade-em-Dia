@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CategoriaService } from '../../shared/categoria-service';
-import { CategoriaDados } from '../../shared/models';
+import { CategoriaService } from '../../compartilhado/categoria-service';
+import { CategoriaDados } from '../../compartilhado/models';
 import { CategoriaDialogo } from '../categoria-dialogo/categoria-dialogo';
 
 @Component({

@@ -1,4 +1,4 @@
-.layout {
+.estrutura {
   display: flex;
   min-height: 100vh;
 }
@@ -16,7 +16,7 @@ app-menu-lateral {
 }
 
 @media (max-width: 700px) {
-  .layout {
+  .estrutura {
     flex-direction: column;
   }
 

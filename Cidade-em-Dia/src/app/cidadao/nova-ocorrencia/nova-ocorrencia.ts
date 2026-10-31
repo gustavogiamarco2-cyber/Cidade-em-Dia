@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CategoriaService } from '../../shared/categoria-service';
-import { NIVEIS, NovaOcorrencia } from '../../shared/models';
-import { OcorrenciaService } from '../../shared/ocorrencia-service';
+import { CategoriaService } from '../../compartilhado/categoria-service';
+import { NIVEIS, NovaOcorrencia } from '../../compartilhado/models';
+import { OcorrenciaService } from '../../compartilhado/ocorrencia-service';
 
 @Component({
   selector: 'app-nova-ocorrencia',

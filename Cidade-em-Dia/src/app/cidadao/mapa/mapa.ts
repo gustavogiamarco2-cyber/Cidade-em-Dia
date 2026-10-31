@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { OcorrenciaService } from '../../shared/ocorrencia-service';
+import { OcorrenciaService } from '../../compartilhado/ocorrencia-service';
 
 @Component({
   selector: 'app-mapa',

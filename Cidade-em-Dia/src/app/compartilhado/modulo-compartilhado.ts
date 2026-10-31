@@ -8,11 +8,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { MenuLateral } from './menu-lateral/menu-lateral';
-import { Layout } from './layout/layout';
+import { Estrutura } from './estrutura/estrutura';
 import { OcorrenciaDetalhe } from './ocorrencia-detalhe/ocorrencia-detalhe';
 
 @NgModule({
-  declarations: [MenuLateral, Layout, OcorrenciaDetalhe],
+  declarations: [MenuLateral, Estrutura, OcorrenciaDetalhe],
   imports: [
     CommonModule,
     RouterModule,
@@ -22,6 +22,6 @@ import { OcorrenciaDetalhe } from './ocorrencia-detalhe/ocorrencia-detalhe';
     MatSelectModule,
     MatSnackBarModule,
   ],
-  exports: [MenuLateral, Layout, OcorrenciaDetalhe],
+  exports: [MenuLateral, Estrutura, OcorrenciaDetalhe],
 })
-export class SharedModule {}
+export class ModuloCompartilhado {}

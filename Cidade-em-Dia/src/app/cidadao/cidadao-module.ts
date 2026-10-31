@@ -9,10 +9,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { SharedModule } from '../shared/shared-module';
-import { Layout } from '../shared/layout/layout';
-import { OcorrenciaDetalhe } from '../shared/ocorrencia-detalhe/ocorrencia-detalhe';
-import { perfilGuard } from '../shared/perfil-guard';
+import { ModuloCompartilhado } from '../compartilhado/modulo-compartilhado';
+import { Estrutura } from '../compartilhado/estrutura/estrutura';
+import { OcorrenciaDetalhe } from '../compartilhado/ocorrencia-detalhe/ocorrencia-detalhe';
+import { perfilGuard } from '../compartilhado/perfil-guard';
 import { MinhasOcorrencias } from './minhas-ocorrencias/minhas-ocorrencias';
 import { NovaOcorrenciaPagina } from './nova-ocorrencia/nova-ocorrencia';
 import { Mapa } from './mapa/mapa';
@@ -20,7 +20,7 @@ import { Mapa } from './mapa/mapa';
 const routes: Routes = [
   {
     path: '',
-    component: Layout,
+    component: Estrutura,
     canActivate: [perfilGuard],
     data: { perfil: 'cidadao' },
     children: [
@@ -39,7 +39,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     RouterModule.forChild(routes),
-    SharedModule,
+    ModuloCompartilhado,
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,

@@ -7,17 +7,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { Login } from './login/login';
+import { Entrar } from './entrar/entrar';
 import { Cadastro } from './cadastro/cadastro';
 
 const routes: Routes = [
-  { path: 'login', component: Login },
+  { path: 'login', component: Entrar },
   { path: 'cadastro', component: Cadastro },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];
 
 @NgModule({
-  declarations: [Login, Cadastro],
+  declarations: [Entrar, Cadastro],
   imports: [
     CommonModule,
     FormsModule,
