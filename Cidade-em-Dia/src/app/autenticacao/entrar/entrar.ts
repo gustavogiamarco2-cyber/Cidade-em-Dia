@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../compartilhado/auth-service';
+import { AutenticacaoService } from '../../compartilhado/autenticacao-service';
 
 @Component({
   selector: 'app-entrar',
@@ -9,7 +9,7 @@ import { AuthService } from '../../compartilhado/auth-service';
   templateUrl: './entrar.html',
 })
 export class Entrar {
-  private readonly auth = inject(AuthService);
+  private readonly auth = inject(AutenticacaoService);
   private readonly router = inject(Router);
 
   email = '';

@@ -3,7 +3,7 @@ import { Perfil } from './models';
 
 // Autenticação simulada: não há API. O perfil é deduzido do e-mail informado.
 @Injectable({ providedIn: 'root' })
-export class AuthService {
+export class AutenticacaoService {
   readonly perfil = signal<Perfil | null>(sessionStorage.getItem('perfil') as Perfil | null);
 
   entrar(email: string): Perfil {

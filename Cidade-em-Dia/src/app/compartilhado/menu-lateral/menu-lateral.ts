@@ -1,5 +1,5 @@
 import { Component, inject, input } from '@angular/core';
-import { AuthService } from '../auth-service';
+import { AutenticacaoService } from '../autenticacao-service';
 
 export interface ItemMenu {
   rotulo: string;
@@ -14,7 +14,7 @@ export interface ItemMenu {
   templateUrl: './menu-lateral.html',
 })
 export class MenuLateral {
-  private readonly auth = inject(AuthService);
+  private readonly auth = inject(AutenticacaoService);
 
   itens = input.required<ItemMenu[]>();
 
