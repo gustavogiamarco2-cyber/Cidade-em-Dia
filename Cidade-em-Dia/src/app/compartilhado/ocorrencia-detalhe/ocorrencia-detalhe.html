@@ -24,7 +24,7 @@
     @if (gestao) {
       <mat-form-field appearance="outline" class="campo">
         <mat-label>Alterar status</mat-label>
-        <mat-select [(value)]="novoStatus">
+        <mat-select [value]="novoStatus()" (selectionChange)="novoStatus.set($event.value)">
           @for (s of statusOpcoes; track s) {
             <mat-option [value]="s">{{ s }}</mat-option>
           }

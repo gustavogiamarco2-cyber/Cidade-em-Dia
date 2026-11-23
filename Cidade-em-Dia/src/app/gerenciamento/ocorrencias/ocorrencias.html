@@ -6,7 +6,7 @@
 <div class="filtros">
   <mat-form-field appearance="outline">
     <mat-label>Categoria</mat-label>
-    <mat-select [(value)]="categoria">
+    <mat-select [value]="categoria()" (selectionChange)="categoria.set($event.value)">
       <mat-option value="">Todas</mat-option>
       @for (c of categorias(); track c.id) {
         <mat-option [value]="c.nome">{{ c.nome }}</mat-option>
@@ -16,7 +16,7 @@
 
   <mat-form-field appearance="outline">
     <mat-label>Status</mat-label>
-    <mat-select [(value)]="status">
+    <mat-select [value]="status()" (selectionChange)="status.set($event.value)">
       <mat-option value="">Todos</mat-option>
       @for (s of statusOpcoes; track s) {
         <mat-option [value]="s">{{ s }}</mat-option>
@@ -26,7 +26,7 @@
 
   <mat-form-field appearance="outline">
     <mat-label>Prioridade</mat-label>
-    <mat-select [(value)]="prioridade">
+    <mat-select [value]="prioridade()" (selectionChange)="prioridade.set($event.value)">
       <mat-option value="">Todas</mat-option>
       @for (n of niveis; track n) {
         <mat-option [value]="n">{{ n }}</mat-option>
