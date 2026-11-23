@@ -18,9 +18,20 @@ import { Usuario } from './usuario/usuario';
 import { Painel } from './painel/painel';
 import { Ocorrencias } from './ocorrencias/ocorrencias';
 import { Estatisticas } from './estatisticas/estatisticas';
+import { UsuarioDialogo } from './usuario-dialogo/usuario-dialogo';
+import { OcorrenciaDialogo } from './ocorrencias/ocorrencia-dialogo';
 
 @NgModule({
-  declarations: [Categoria, CategoriaDialogo, Usuario, Painel, Ocorrencias, Estatisticas],
+  declarations: [
+    Categoria,
+    CategoriaDialogo,
+    Usuario,
+    UsuarioDialogo,
+    Painel,
+    Ocorrencias,
+    OcorrenciaDialogo,
+    Estatisticas,
+  ],
   imports: [
     CommonModule,
     FormsModule,

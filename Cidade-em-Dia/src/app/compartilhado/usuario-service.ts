@@ -11,8 +11,25 @@ export class UsuarioService {
 
   readonly lista = this._lista.asReadonly();
 
-  cadastrar(nome: string, email: string): void {
-    this._lista.update(l => [...l, { id: Date.now(), nome, email, perfil: 'Cidadão', ativo: true }]);
+  cadastrar(dados: Pick<UsuarioDados, 'nome' | 'email' | 'perfil'>): void {
+    this._lista.update(lista => [
+      ...lista,
+      {
+        ...dados,
+        id: Math.max(0, ...lista.map(usuario => usuario.id)) + 1,
+        ativo: true,
+      },
+    ]);
+  }
+
+  atualizar(id: number, dados: Pick<UsuarioDados, 'nome' | 'email' | 'perfil'>): void {
+    this._lista.update(lista =>
+      lista.map(usuario => (usuario.id === id ? { ...usuario, ...dados } : usuario)),
+    );
+  }
+
+  excluir(id: number): void {
+    this._lista.update(lista => lista.filter(usuario => usuario.id !== id));
   }
 
   alternarSituacao(id: number): void {

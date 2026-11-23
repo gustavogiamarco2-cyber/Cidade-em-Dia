@@ -20,7 +20,11 @@ export class Cadastro {
   confirmacao = '';
 
   criar(): void {
-    this.usuarios.cadastrar(this.nome.trim(), this.email.trim());
+    this.usuarios.cadastrar({
+      nome: this.nome.trim(),
+      email: this.email.trim(),
+      perfil: 'Cidadão',
+    });
     this.snackBar.open('Conta criada. Faça login para continuar.', 'OK', { duration: 4000 });
     this.router.navigate(['/auth/login']);
   }

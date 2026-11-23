@@ -39,6 +39,25 @@ export class OcorrenciaService {
     return nova;
   }
 
+  atualizar(id: number, dados: NovaOcorrencia): void {
+    this._lista.update(lista =>
+      lista.map(ocorrencia =>
+        ocorrencia.id === id
+          ? {
+              ...ocorrencia,
+              ...dados,
+              titulo: `${dados.categoria} na ${dados.rua}`,
+              prioridade: dados.urgencia,
+            }
+          : ocorrencia,
+      ),
+    );
+  }
+
+  excluir(id: number): void {
+    this._lista.update(lista => lista.filter(ocorrencia => ocorrencia.id !== id));
+  }
+
   atualizarStatus(id: number, status: Status): void {
     this._lista.update(lista => lista.map(o => (o.id === id ? { ...o, status } : o)));
   }
