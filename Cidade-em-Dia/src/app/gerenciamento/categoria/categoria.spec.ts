@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { provideRouter } from '@angular/router';
 import { vi } from 'vitest';
 import { of } from 'rxjs';
@@ -21,6 +22,7 @@ describe('Categoria', () => {
       providers: [
         provideRouter([]),
         { provide: MatDialog, useValue: { open: vi.fn() } },
+        { provide: MatSnackBar, useValue: { open: vi.fn() } },
       ],
     }).compileComponents();
 
@@ -64,5 +66,16 @@ describe('Categoria', () => {
     component.editarCategoria(component.categorias()[0]);
 
     expect(component.categorias()[0].nome).toBe('Buraco na via');
+  });
+
+  it('deve excluir a categoria confirmada pelo usuário', () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true);
+    const quantidadeInicial = component.categorias().length;
+    const categoria = component.categorias()[0];
+
+    component.excluirCategoria(categoria);
+
+    expect(component.categorias().length).toBe(quantidadeInicial - 1);
+    expect(component.categorias().some(item => item.id === categoria.id)).toBe(false);
   });
 });

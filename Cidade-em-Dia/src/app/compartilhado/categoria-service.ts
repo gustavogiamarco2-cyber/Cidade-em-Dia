@@ -22,6 +22,10 @@ export class CategoriaService {
     this._lista.update(l => l.map(c => (c.id === id ? { ...c, nome } : c)));
   }
 
+  excluir(id: number): void {
+    this._lista.update(l => l.filter(c => c.id !== id));
+  }
+
   alternarSituacao(id: number): void {
     this._lista.update(l => l.map(c => (c.id === id ? { ...c, ativa: !c.ativa } : c)));
   }

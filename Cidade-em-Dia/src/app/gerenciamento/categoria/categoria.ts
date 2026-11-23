@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoriaService } from '../../compartilhado/categoria-service';
 import { CategoriaDados } from '../../compartilhado/models';
 import { CategoriaDialogo } from '../categoria-dialogo/categoria-dialogo';
@@ -13,6 +14,7 @@ import { CategoriaDialogo } from '../categoria-dialogo/categoria-dialogo';
 export class Categoria {
   private readonly servico = inject(CategoriaService);
   private readonly dialogo = inject(MatDialog);
+  private readonly snackBar = inject(MatSnackBar);
 
   colunasExibidas = ['nome', 'situacao', 'acoes'];
   categorias = this.servico.lista;
@@ -33,5 +35,11 @@ export class Categoria {
 
   alternarSituacao(categoria: CategoriaDados): void {
     this.servico.alternarSituacao(categoria.id);
+  }
+
+  excluirCategoria(categoria: CategoriaDados): void {
+    if (!window.confirm(`Excluir a categoria "${categoria.nome}"?`)) return;
+    this.servico.excluir(categoria.id);
+    this.snackBar.open('Categoria excluída.', 'OK', { duration: 3000 });
   }
 }

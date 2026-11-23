@@ -1,0 +1,42 @@
+classDiagram
+    direction LR
+
+    class Usuario {
+        +number id
+        +string nome
+        +string email
+        +string perfil
+        +boolean ativo
+    }
+
+    class Categoria {
+        +number id
+        +string nome
+        +boolean ativa
+    }
+
+    class Ocorrencia {
+        +number id
+        +string titulo
+        +string categoria
+        +string descricao
+        +string endereco
+        +Nivel urgencia
+        +Nivel prioridade
+        +Status status
+        +number confirmacoes
+    }
+
+    class Atendimento {
+        +number id
+        +number ocorrenciaId
+        +number atendenteId
+        +Status statusAnterior
+        +Status statusNovo
+        +Date data
+    }
+
+    Usuario "1" --> "0..*" Ocorrencia : cadastra
+    Categoria "1" --> "0..*" Ocorrencia : classifica
+    Usuario "1" --> "0..*" Atendimento : realiza
+    Ocorrencia "1" --> "0..*" Atendimento : recebe
