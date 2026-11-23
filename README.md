@@ -112,3 +112,12 @@ No desenvolvimento futuro do backend, serão implementados:
 - Cadastro e autenticação reais.
 - Autorização de cada perfil.
 - Persistência permanente das ocorrências e atendimentos.
+
+## Integrantes do grupo
+
+- Kauan Ribeiro — 273006.
+- Otávio Siqueira Freire dos Santos — 273524.
+- Luiz Gustavo Legori Ramos — 273066.
+- Marcos Vinicius Gonçalves Miotto — 272975.
+- Pedro Henrique Cavalheiro Martins — 272747.
+- Gustavo Rodrigues Giamarco — 272805.
