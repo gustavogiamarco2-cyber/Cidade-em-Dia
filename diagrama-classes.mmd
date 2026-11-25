@@ -21,11 +21,16 @@ classDiagram
         +number usuarioId
         +number categoriaId
         +string descricao
-        +string endereco
+        +string rua
+        +string numero
+        +string bairro
+        +string cidade
+        +string referencia
         +Nivel urgencia
         +Nivel prioridade
         +Status status
         +number confirmacoes
+        +string foto?
     }
 
     class Atendimento {
@@ -35,6 +40,21 @@ classDiagram
         +Status statusAnterior
         +Status statusNovo
         +Date data
+    }
+
+    class Nivel {
+        <<enumeration>>
+        Baixa
+        Média
+        Alta
+    }
+
+    class Status {
+        <<enumeration>>
+        Nova
+        Em análise
+        Em andamento
+        Resolvida
     }
 
     Usuario "1" --> "0..*" Ocorrencia : usuarioId
