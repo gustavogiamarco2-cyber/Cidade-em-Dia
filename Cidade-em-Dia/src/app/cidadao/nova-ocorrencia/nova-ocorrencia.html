@@ -3,9 +3,9 @@
 <form #f="ngForm" (ngSubmit)="registrar()">
   <mat-form-field appearance="outline">
     <mat-label>Categoria</mat-label>
-    <mat-select name="categoria" required [(ngModel)]="dados.categoria">
+    <mat-select name="categoriaId" required [(ngModel)]="dados.categoriaId">
       @for (c of categorias(); track c.id) {
-        <mat-option [value]="c.nome">{{ c.nome }}</mat-option>
+        <mat-option [value]="c.id">{{ c.nome }}</mat-option>
       }
     </mat-select>
   </mat-form-field>

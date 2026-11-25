@@ -13,7 +13,7 @@
   <mat-card appearance="outlined" class="cartao">
     <mat-card-content>
       <strong>{{ o.titulo }}</strong><br />
-      Categoria: {{ o.categoria }}<br />
+      Categoria: {{ categorias.nomePorId(o.categoriaId) }}<br />
       Endereço: {{ o.rua }}, {{ o.numero }}<br />
       Urgência: {{ o.urgencia }}<br />
       Prioridade: {{ o.prioridade }}<br />

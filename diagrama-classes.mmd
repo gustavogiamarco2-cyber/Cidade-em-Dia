@@ -18,7 +18,8 @@ classDiagram
     class Ocorrencia {
         +number id
         +string titulo
-        +string categoria
+        +number usuarioId
+        +number categoriaId
         +string descricao
         +string endereco
         +Nivel urgencia
@@ -30,13 +31,13 @@ classDiagram
     class Atendimento {
         +number id
         +number ocorrenciaId
-        +number atendenteId
+        +number usuarioId
         +Status statusAnterior
         +Status statusNovo
         +Date data
     }
 
-    Usuario "1" --> "0..*" Ocorrencia : cadastra
-    Categoria "1" --> "0..*" Ocorrencia : classifica
-    Usuario "1" --> "0..*" Atendimento : realiza
-    Ocorrencia "1" --> "0..*" Atendimento : recebe
+    Usuario "1" --> "0..*" Ocorrencia : usuarioId
+    Categoria "1" --> "0..*" Ocorrencia : categoriaId
+    Usuario "1" --> "0..*" Atendimento : usuarioId
+    Ocorrencia "1" --> "0..*" Atendimento : ocorrenciaId

@@ -11,7 +11,7 @@
     </div>
 
     <p>Descrição: {{ o.descricao }}</p>
-    <p>Categoria: {{ o.categoria }}</p>
+    <p>Categoria: {{ categorias.nomePorId(o.categoriaId) }}</p>
     <p>
       Endereço: {{ o.rua }}, {{ o.numero }} — {{ o.bairro }}, {{ o.cidade }}
       @if (o.referencia) { ({{ o.referencia }}) }

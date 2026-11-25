@@ -1,6 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Nivel, NIVEIS, NovaOcorrencia, Ocorrencia } from '../../compartilhado/models';
+import {
+  CategoriaDados,
+  Nivel,
+  NIVEIS,
+  NovaOcorrencia,
+  Ocorrencia,
+} from '../../compartilhado/models';
 
 @Component({
   selector: 'app-ocorrencia-dialogo',
@@ -11,9 +17,9 @@ import { Nivel, NIVEIS, NovaOcorrencia, Ocorrencia } from '../../compartilhado/m
       <mat-dialog-content>
         <mat-form-field appearance="outline" class="campo">
           <mat-label>Categoria</mat-label>
-          <mat-select name="categoria" required [(ngModel)]="formularioDados.categoria">
-            @for (categoria of dados.categorias; track categoria) {
-              <mat-option [value]="categoria">{{ categoria }}</mat-option>
+          <mat-select name="categoriaId" required [(ngModel)]="formularioDados.categoriaId">
+            @for (categoria of dados.categorias; track categoria.id) {
+              <mat-option [value]="categoria.id">{{ categoria.nome }}</mat-option>
             }
           </mat-select>
         </mat-form-field>
@@ -66,12 +72,14 @@ import { Nivel, NIVEIS, NovaOcorrencia, Ocorrencia } from '../../compartilhado/m
 })
 export class OcorrenciaDialogo {
   private readonly ref = inject(MatDialogRef<OcorrenciaDialogo, NovaOcorrencia>);
-  readonly dados = inject<{ categorias: string[]; ocorrencia?: Ocorrencia }>(MAT_DIALOG_DATA);
+  readonly dados = inject<{ categorias: CategoriaDados[]; ocorrencia?: Ocorrencia }>(
+    MAT_DIALOG_DATA,
+  );
   readonly niveis = NIVEIS;
 
   formularioDados: NovaOcorrencia = this.dados.ocorrencia
     ? {
-        categoria: this.dados.ocorrencia.categoria,
+        categoriaId: this.dados.ocorrencia.categoriaId,
         descricao: this.dados.ocorrencia.descricao,
         urgencia: this.dados.ocorrencia.urgencia,
         rua: this.dados.ocorrencia.rua,
@@ -82,7 +90,7 @@ export class OcorrenciaDialogo {
         foto: this.dados.ocorrencia.foto,
       }
     : {
-        categoria: this.dados.categorias[0] ?? '',
+        categoriaId: this.dados.categorias[0]?.id ?? 0,
         descricao: '',
         urgencia: 'Baixa' satisfies Nivel,
         rua: '',
@@ -95,7 +103,6 @@ export class OcorrenciaDialogo {
   salvar(): void {
     const dados = {
       ...this.formularioDados,
-      categoria: this.formularioDados.categoria.trim(),
       descricao: this.formularioDados.descricao.trim(),
       rua: this.formularioDados.rua.trim(),
       numero: this.formularioDados.numero.trim(),
@@ -104,7 +111,7 @@ export class OcorrenciaDialogo {
       referencia: this.formularioDados.referencia.trim(),
     };
     if (
-      !dados.categoria ||
+      !dados.categoriaId ||
       !dados.descricao ||
       !dados.rua ||
       !dados.numero ||

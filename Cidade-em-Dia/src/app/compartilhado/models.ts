@@ -8,7 +8,8 @@ export const NIVEIS: Nivel[] = ['Baixa', 'Média', 'Alta'];
 export interface Ocorrencia {
   id: number;
   titulo: string;
-  categoria: string;
+  usuarioId: number;
+  categoriaId: number;
   descricao: string;
   rua: string;
   numero: string;
@@ -24,7 +25,15 @@ export interface Ocorrencia {
 
 export type NovaOcorrencia = Pick<
   Ocorrencia,
-  'categoria' | 'descricao' | 'urgencia' | 'rua' | 'numero' | 'bairro' | 'cidade' | 'referencia' | 'foto'
+  | 'categoriaId'
+  | 'descricao'
+  | 'urgencia'
+  | 'rua'
+  | 'numero'
+  | 'bairro'
+  | 'cidade'
+  | 'referencia'
+  | 'foto'
 >;
 
 export interface CategoriaDados {
@@ -39,4 +48,13 @@ export interface UsuarioDados {
   email: string;
   perfil: string;
   ativo: boolean;
+}
+
+export interface Atendimento {
+  id: number;
+  ocorrenciaId: number;
+  usuarioId: number;
+  statusAnterior: Status;
+  statusNovo: Status;
+  data: Date;
 }

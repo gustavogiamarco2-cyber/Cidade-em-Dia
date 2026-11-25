@@ -8,6 +8,7 @@ import { vi } from 'vitest';
 import { of } from 'rxjs';
 import { Categoria } from './categoria';
 import { MenuLateral } from '../../compartilhado/menu-lateral/menu-lateral';
+import { CategoriaService } from '../../compartilhado/categoria-service';
 
 describe('Categoria', () => {
   let component: Categoria;
@@ -70,12 +71,24 @@ describe('Categoria', () => {
 
   it('deve excluir a categoria confirmada pelo usuário', () => {
     vi.spyOn(window, 'confirm').mockReturnValue(true);
+    const servico = TestBed.inject(CategoriaService);
+    servico.adicionar('Praças');
+    const categoria = component.categorias().at(-1)!;
+    const quantidadeInicial = component.categorias().length;
+
+    component.excluirCategoria(categoria);
+
+    expect(component.categorias().length).toBe(quantidadeInicial - 1);
+    expect(component.categorias().some((item) => item.id === categoria.id)).toBe(false);
+  });
+
+  it('impede excluir categoria associada a uma ocorrência', () => {
     const quantidadeInicial = component.categorias().length;
     const categoria = component.categorias()[0];
 
     component.excluirCategoria(categoria);
 
-    expect(component.categorias().length).toBe(quantidadeInicial - 1);
-    expect(component.categorias().some(item => item.id === categoria.id)).toBe(false);
+    expect(component.categorias().length).toBe(quantidadeInicial);
+    expect(component.categorias().some((item) => item.id === categoria.id)).toBe(true);
   });
 });

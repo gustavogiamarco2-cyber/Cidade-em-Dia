@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { CategoriaService } from '../../compartilhado/categoria-service';
 import { OcorrenciaService } from '../../compartilhado/ocorrencia-service';
 
 @Component({
@@ -9,6 +10,7 @@ import { OcorrenciaService } from '../../compartilhado/ocorrencia-service';
 })
 export class MinhasOcorrencias {
   private readonly servico = inject(OcorrenciaService);
+  readonly categorias = inject(CategoriaService);
 
   readonly filtros = ['Todas', 'Em análise', 'Em andamento', 'Resolvidas'];
   readonly filtro = signal('Todas');
@@ -16,6 +18,6 @@ export class MinhasOcorrencias {
   readonly ocorrencias = computed(() => {
     const f = this.filtro();
     const status = f === 'Resolvidas' ? 'Resolvida' : f;
-    return this.servico.lista().filter(o => f === 'Todas' || o.status === status);
+    return this.servico.lista().filter((o) => f === 'Todas' || o.status === status);
   });
 }

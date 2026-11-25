@@ -11,7 +11,7 @@
   <mat-card appearance="outlined" class="cartao">
     <mat-card-content>
       <strong>{{ o.titulo }}</strong><br />
-      Categoria: {{ o.categoria }}<br />
+      Categoria: {{ categorias.nomePorId(o.categoriaId) }}<br />
       Urgência: {{ o.urgencia }}<br />
       Prioridade: {{ o.prioridade }}<br />
       Status: {{ o.status }}

@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AutenticacaoService } from '../../compartilhado/autenticacao-service';
 import { CategoriaService } from '../../compartilhado/categoria-service';
 import { NIVEIS, NovaOcorrencia } from '../../compartilhado/models';
 import { OcorrenciaService } from '../../compartilhado/ocorrencia-service';
@@ -15,6 +16,7 @@ export class NovaOcorrenciaPagina {
   private readonly servico = inject(OcorrenciaService);
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly auth = inject(AutenticacaoService);
 
   readonly categorias = inject(CategoriaService).ativas;
   readonly niveis = NIVEIS;
@@ -22,7 +24,7 @@ export class NovaOcorrenciaPagina {
   nomeFoto = '';
 
   dados: NovaOcorrencia = {
-    categoria: this.categorias()[0]?.nome ?? '',
+    categoriaId: this.categorias()[0]?.id ?? 0,
     descricao: '',
     urgencia: 'Baixa',
     rua: '',
@@ -41,7 +43,14 @@ export class NovaOcorrenciaPagina {
   }
 
   registrar(): void {
-    this.servico.registrar(this.dados);
+    const usuarioId = this.auth.usuarioId();
+    if (usuarioId === null) {
+      this.snackBar.open('Não foi possível identificar o usuário da sessão.', 'OK', {
+        duration: 3000,
+      });
+      return;
+    }
+    this.servico.registrar(this.dados, usuarioId);
     this.snackBar.open('Ocorrência registrada.', 'OK', { duration: 3000 });
     this.router.navigate(['/cidadao/minhas']);
   }
