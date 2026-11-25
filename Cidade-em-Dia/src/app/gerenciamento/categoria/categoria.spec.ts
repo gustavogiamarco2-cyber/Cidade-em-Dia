@@ -15,6 +15,7 @@ describe('Categoria', () => {
   let fixture: ComponentFixture<Categoria>;
 
   beforeEach(async () => {
+    localStorage.clear();
     TestBed.resetTestingModule();
     vi.restoreAllMocks();
     await TestBed.configureTestingModule({

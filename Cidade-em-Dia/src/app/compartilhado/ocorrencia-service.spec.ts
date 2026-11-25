@@ -12,6 +12,7 @@ describe('OcorrenciaService', () => {
   let atendimentos: AtendimentoService;
 
   beforeEach(() => {
+    localStorage.clear();
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({});
     servico = TestBed.inject(OcorrenciaService);

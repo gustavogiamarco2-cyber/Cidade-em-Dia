@@ -38,8 +38,19 @@ export class NovaOcorrenciaPagina {
   selecionarFoto(evento: Event): void {
     const arquivo = (evento.target as HTMLInputElement).files?.[0];
     if (!arquivo || !arquivo.type.startsWith('image/')) return;
-    this.nomeFoto = arquivo.name;
-    this.dados.foto = URL.createObjectURL(arquivo);
+    const leitor = new FileReader();
+    leitor.onload = () => {
+      if (typeof leitor.result !== 'string') {
+        this.snackBar.open('Não foi possível carregar a foto.', 'OK', { duration: 3000 });
+        return;
+      }
+      this.nomeFoto = arquivo.name;
+      this.dados.foto = leitor.result;
+    };
+    leitor.onerror = () => {
+      this.snackBar.open('Não foi possível carregar a foto.', 'OK', { duration: 3000 });
+    };
+    leitor.readAsDataURL(arquivo);
   }
 
   registrar(): void {

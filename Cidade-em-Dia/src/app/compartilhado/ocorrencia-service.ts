@@ -2,6 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { CategoriaService } from './categoria-service';
 import { AtendimentoService } from './atendimento-service';
 import { NovaOcorrencia, Ocorrencia, Status } from './models';
+import { CHAVES_PERSISTENCIA, PersistenciaLocalService } from './persistencia-local-service';
 import { UsuarioService } from './usuario-service';
 
 export interface FiltroOcorrencia {
@@ -11,10 +12,8 @@ export interface FiltroOcorrencia {
   bairro?: string;
 }
 
-type OcorrenciaLegada = Omit<Ocorrencia, 'categoriaId' | 'usuarioId'> & {
+type OcorrenciaLegada = Partial<Ocorrencia> & {
   categoria?: string;
-  categoriaId?: number;
-  usuarioId?: number;
 };
 
 const OCORRENCIAS_INICIAIS: OcorrenciaLegada[] = [
@@ -115,17 +114,31 @@ const OCORRENCIAS_INICIAIS: OcorrenciaLegada[] = [
   },
 ];
 
-// Dados em memória: ainda não há API.
+// Os dados ficam em localStorage; não há integração com API.
 @Injectable({ providedIn: 'root' })
 export class OcorrenciaService {
   private readonly categorias = inject(CategoriaService);
   private readonly usuarios = inject(UsuarioService);
   private readonly atendimentos = inject(AtendimentoService);
+  private readonly persistencia = inject(PersistenciaLocalService);
+  private readonly dadosSalvos = this.persistencia.lerLista<unknown>(
+    CHAVES_PERSISTENCIA.ocorrencias,
+  );
   private readonly _lista = signal<Ocorrencia[]>(
-    OCORRENCIAS_INICIAIS.map((item) => this.normalizar(item)),
+    (this.dadosSalvos ?? OCORRENCIAS_INICIAIS)
+      .map((item) => this.normalizar(item))
+      .filter((item): item is Ocorrencia => item !== undefined),
   );
 
   readonly lista = this._lista.asReadonly();
+
+  constructor() {
+    this.persistir();
+    this.atendimentos.reconciliarRelacionamentos(
+      new Set(this._lista().map((ocorrencia) => ocorrencia.id)),
+      new Set(this.usuarios.lista().map((usuario) => usuario.id)),
+    );
+  }
 
   obter(id: number): Ocorrencia | undefined {
     return this._lista().find((o) => o.id === id);
@@ -145,7 +158,7 @@ export class OcorrenciaService {
       status: 'Nova',
       confirmacoes: 0,
     };
-    this._lista.update((lista) => [nova, ...lista]);
+    this.atualizarLista((lista) => [nova, ...lista]);
     return nova;
   }
 
@@ -153,7 +166,7 @@ export class OcorrenciaService {
     const categoria = this.categorias.obter(dados.categoriaId);
     if (!categoria) throw new Error(`Categoria ${dados.categoriaId} não encontrada.`);
 
-    this._lista.update((lista) =>
+    this.atualizarLista((lista) =>
       lista.map((ocorrencia) =>
         ocorrencia.id === id
           ? {
@@ -169,7 +182,7 @@ export class OcorrenciaService {
 
   excluir(id: number): boolean {
     if (this.atendimentos.possuiRegistrosDaOcorrencia(id)) return false;
-    this._lista.update((lista) => lista.filter((ocorrencia) => ocorrencia.id !== id));
+    this.atualizarLista((lista) => lista.filter((ocorrencia) => ocorrencia.id !== id));
     return true;
   }
 
@@ -184,14 +197,14 @@ export class OcorrenciaService {
       statusAnterior: ocorrencia.status,
       statusNovo: status,
     });
-    this._lista.update((lista) =>
+    this.atualizarLista((lista) =>
       lista.map((item) => (item.id === id ? { ...item, status } : item)),
     );
     return true;
   }
 
   confirmar(id: number): void {
-    this._lista.update((lista) =>
+    this.atualizarLista((lista) =>
       lista.map((o) => (o.id === id ? { ...o, confirmacoes: o.confirmacoes + 1 } : o)),
     );
   }
@@ -227,28 +240,71 @@ export class OcorrenciaService {
       .sort((a, b) => b.total - a.total);
   }
 
-  private normalizar(registro: OcorrenciaLegada): Ocorrencia {
-    const { categoria, categoriaId, usuarioId, ...dados } = registro;
-    const categoriaPorId =
-      categoriaId === undefined ? undefined : this.categorias.obter(categoriaId);
-    const categoriaRelacionada =
-      categoriaPorId ??
-      (categoria?.trim()
-        ? this.categorias.obterOuCriarLegada(categoria)
-        : this.categorias.lista()[0]);
-    const usuarioRelacionado =
-      (usuarioId === undefined ? undefined : this.usuarios.obter(usuarioId)) ??
-      this.usuarios.obterPadrao('cidadao');
+  private normalizar(registro: unknown): Ocorrencia | undefined {
+    if (!registro || typeof registro !== 'object') return undefined;
+    const dados = registro as OcorrenciaLegada;
+    if (!Number.isInteger(dados.id) || Number(dados.id) <= 0) return undefined;
 
-    if (!categoriaRelacionada)
-      throw new Error('Não há categorias disponíveis para relacionar ocorrências.');
-    if (!usuarioRelacionado)
-      throw new Error('Não há usuário cidadão disponível para relacionar ocorrências.');
+    const categoriaExistente =
+      Number.isInteger(dados.categoriaId) && dados.categoriaId! > 0
+        ? this.categorias.obter(dados.categoriaId!)
+        : undefined;
+    const categoriaRelacionada =
+      categoriaExistente ??
+      this.categorias.obterOuCriarLegada(
+        typeof dados.categoria === 'string' && dados.categoria.trim()
+          ? dados.categoria
+          : 'Categoria indisponível',
+      );
+    const usuarioRelacionado =
+      Number.isInteger(dados.usuarioId) && dados.usuarioId! > 0
+        ? this.usuarios.obterOuCriarLegado(dados.usuarioId)
+        : this.usuarios.obterOuCriarLegado();
 
     return {
-      ...dados,
+      id: Number(dados.id),
+      titulo:
+        typeof dados.titulo === 'string' && dados.titulo.trim()
+          ? dados.titulo
+          : `${categoriaRelacionada.nome} na ${typeof dados.rua === 'string' ? dados.rua : 'local informado'}`,
       categoriaId: categoriaRelacionada.id,
       usuarioId: usuarioRelacionado.id,
+      descricao: typeof dados.descricao === 'string' ? dados.descricao : '',
+      rua: typeof dados.rua === 'string' ? dados.rua : '',
+      numero: typeof dados.numero === 'string' ? dados.numero : '',
+      bairro: typeof dados.bairro === 'string' ? dados.bairro : '',
+      cidade: typeof dados.cidade === 'string' ? dados.cidade : '',
+      referencia: typeof dados.referencia === 'string' ? dados.referencia : '',
+      urgencia: this.nivelValido(dados.urgencia) ? dados.urgencia : 'Baixa',
+      prioridade: this.nivelValido(dados.prioridade) ? dados.prioridade : 'Baixa',
+      status: this.statusValido(dados.status) ? dados.status : 'Nova',
+      confirmacoes:
+        Number.isInteger(dados.confirmacoes) && Number(dados.confirmacoes) >= 0
+          ? Number(dados.confirmacoes)
+          : 0,
+      foto: typeof dados.foto === 'string' ? dados.foto : undefined,
     };
+  }
+
+  private nivelValido(nivel: unknown): nivel is Ocorrencia['urgencia'] {
+    return nivel === 'Baixa' || nivel === 'Média' || nivel === 'Alta';
+  }
+
+  private statusValido(status: unknown): status is Status {
+    return (
+      status === 'Nova' ||
+      status === 'Em análise' ||
+      status === 'Em andamento' ||
+      status === 'Resolvida'
+    );
+  }
+
+  private atualizarLista(atualizar: (lista: Ocorrencia[]) => Ocorrencia[]): void {
+    this._lista.update(atualizar);
+    this.persistir();
+  }
+
+  private persistir(): void {
+    this.persistencia.salvarLista(CHAVES_PERSISTENCIA.ocorrencias, this._lista());
   }
 }
