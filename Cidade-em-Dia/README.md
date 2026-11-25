@@ -1,59 +1,53 @@
-# CidadeEmDia
+# Frontend Cidade em Dia
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.4.
+Este diretório contém a aplicação Angular do Cidade em Dia. O frontend oferece as telas de autenticação, registro e acompanhamento de ocorrências, atendimento e gerenciamento administrativo. A persistência é local ao navegador; este projeto não realiza chamadas HTTP nem se integra a um backend.
 
-## Development server
+Para descrição completa dos perfis, entidades, relacionamentos, funcionalidades e limitações do projeto, consulte o [README principal](../README.md).
 
-To start a local development server, run:
+## Organização do frontend
 
-```bash
-ng serve
-```
+- `src/app/autenticacao/`: telas e rotas de login e cadastro.
+- `src/app/cidadao/`: registro, consulta e mapa ilustrativo de ocorrências.
+- `src/app/atendimento/`: painel de atendimento.
+- `src/app/gerenciamento/`: dashboard, estatísticas e telas administrativas.
+- `src/app/compartilhado/`: models, serviços locais, persistência e componentes compartilhados.
+- `src/app/telas/`: tela de exercício acessível pela rota `/telas/inicial`.
+- `src/main.ts` e `src/app/`: bootstrap e módulos da aplicação.
+- `src/styles.scss`: estilos globais; os estilos de cada componente ficam junto às suas telas.
+- `public/`: arquivos estáticos.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+A aplicação utiliza NgModules e roteamento Angular, com Angular Material nas interfaces. SSR e SSG não estão habilitados.
 
-## Code scaffolding
+## Instalação
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+Execute os comandos a partir deste diretório:
 
 ```bash
-ng build
+npm install
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Requisitos de versão e tecnologias estão documentados no [README principal](../README.md) e declarados em `package.json`.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Executar
 
 ```bash
-ng test
+npm start
 ```
 
-## Running end-to-end tests
+O servidor de desenvolvimento disponibiliza a aplicação em `http://localhost:4200`.
 
-For end-to-end (e2e) testing, run:
+## Testes
+
+Para executar os testes unitários uma vez:
 
 ```bash
-ng e2e
+npm test -- --watch=false
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Build de produção
 
-## Additional Resources
+```bash
+npm run build
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Os arquivos de produção são gerados em `dist/Cidade-em-Dia/browser`.

@@ -1,54 +1,33 @@
-# Cidade-em-Dia
+# Cidade em Dia
 
-Cidade-em-Dia é uma aplicação Angular para o registro, acompanhamento e gerenciamento de ocorrências urbanas.
-
-Nesta etapa, o projeto utiliza dados simulados em memória e autenticação demonstrativa no frontend. A integração com API e banco de dados será realizada em uma etapa posterior do projeto.
-
-## Funcionalidades
-
-- Cadastro de cidadãos.
-- Registro e acompanhamento de ocorrências.
-- Visualização das ocorrências em mapa.
-- Gestão de usuários, categorias e ocorrências.
-- Painel administrativo com indicadores.
-- Registro de atendimentos e alteração de situação das ocorrências.
-- Exercício de aula disponível separadamente pela rota `/telas/inicial`.
-
-## Perfis de acesso
-
-A autenticação desta etapa é simulada. Qualquer senha pode ser informada na tela de login; o perfil é definido pelo texto do endereço de e-mail digitado:
-
-- Administrador: use um e-mail que contenha `admin`, por exemplo `admin@exemplo.com`.
-- Atendente: use um e-mail que contenha `atendente`, por exemplo `atendente@exemplo.com`.
-- Cidadão: use um e-mail sem `admin` ou `atendente`, por exemplo `cidadao@exemplo.com`.
-
-Ao entrar, o sistema redireciona automaticamente para:
-
-- Cidadão: `/cidadao/minhas`.
-- Atendente: `/atendimento/painel`.
-- Administrador: `/gerenciamento/dashboard`.
-
-Os dados e a sessão permanecem apenas durante o uso da aplicação no navegador. Atualizações feitas nos serviços podem ser perdidas ao atualizar ou reiniciar a aplicação.
+Cidade em Dia é uma aplicação frontend para registrar, acompanhar e gerenciar ocorrências urbanas. O projeto demonstra o fluxo de comunicação entre cidadãos e equipes de atendimento, com dados locais no navegador. Não há integração com backend ou banco de dados centralizado nesta etapa.
 
 ## Tecnologias
 
-- Angular 22.
-- Angular Material.
-- TypeScript.
-- RxJS.
-- Vitest.
-- npm.
+Versões conforme declaradas em `Cidade-em-Dia/package.json`:
 
-## Pré-requisitos
+- Angular: `^22.2.0`; Angular CLI e Angular Build: `^22.2.4`.
+- Angular Material e CDK: `~22.2.4`.
+- TypeScript: `~6.0.2`.
+- RxJS: `~7.8.0`.
+- Vitest: `^5.0.0`.
+- npm: `11.19.0` (`packageManager`).
 
-- Node.js compatível com o Angular 22.
-- npm.
+É necessário ter Node.js compatível com Angular 22 e npm instalado.
 
-## Como executar
+## Arquitetura
 
-Na pasta `Cidade-em-Dia` do projeto, instale as dependências:
+- Aplicação Angular organizada por **NgModules**; componentes, diretivas e pipes gerados pelo projeto usam `standalone: false`.
+- Roteamento Angular configurado em módulos, com carregamento lazy das áreas da aplicação.
+- Angular Material utilizado nas telas, formulários, tabelas, diálogos, cartões e notificações.
+- A aplicação inicializa no navegador. SSR e SSG não estão configurados nem habilitados.
+
+## Instalação e execução
+
+Na raiz do repositório, entre na pasta do frontend e instale as dependências:
 
 ```bash
+cd Cidade-em-Dia
 npm install
 ```
 
@@ -58,62 +37,85 @@ Inicie o servidor de desenvolvimento:
 npm start
 ```
 
-A aplicação será disponibilizada em `http://localhost:4200`.
+Abra `http://localhost:4200`.
 
-## Como testar
-
-Execute os testes unitários uma única vez:
+Para executar os testes unitários uma vez:
 
 ```bash
 npm test -- --watch=false
 ```
 
-Execute a compilação de produção:
+Para gerar o build de produção:
 
 ```bash
 npm run build
 ```
 
-O resultado da compilação será gerado em `dist/Cidade-em-Dia/browser`.
+O build é gerado em `Cidade-em-Dia/dist/Cidade-em-Dia/browser`. Os comandos correspondem aos scripts declarados no `package.json` do frontend. Não há script de testes end-to-end configurado.
 
-## Principais áreas
+## Perfis e funcionalidades
 
-- `/auth/login`: login.
-- `/auth/cadastro`: cadastro de cidadão.
-- `/cidadao/nova`: nova ocorrência.
-- `/cidadao/minhas`: ocorrências do cidadão.
-- `/cidadao/mapa`: mapa das ocorrências.
-- `/atendimento/painel`: painel do atendente.
-- `/gerenciamento/dashboard`: painel administrativo.
-- `/gerenciamento/usuario`: gerenciamento de usuários.
-- `/gerenciamento/categoria`: gerenciamento de categorias.
-- `/gerenciamento/ocorrencias`: gerenciamento de ocorrências.
-- `/gerenciamento/estatisticas`: estatísticas.
+A autenticação é demonstrativa: qualquer senha é aceita e o perfil é inferido pelo e-mail informado. E-mails que contêm `admin` acessam o perfil Administrador; se não contiverem `admin`, mas contiverem `atendente`, acessam Atendente; os demais acessam Cidadão. Isso não representa autenticação ou autorização seguras.
 
-## Diagrama de classes
+### Cidadão
 
-O diagrama das quatro entidades principais está disponível em [diagrama-classes.mmd](diagrama-classes.mmd).
+- Criar uma conta de cidadão e entrar na aplicação.
+- Registrar ocorrências com categoria, urgência, endereço, descrição e foto opcional.
+- Consultar ocorrências, filtrar por status, abrir detalhes e confirmar uma ocorrência.
+- Consultar os marcadores na tela de mapa ilustrativo.
 
-As entidades relacionadas são:
+### Atendente
 
-- Usuário.
-- Categoria.
-- Ocorrência.
-- Atendimento.
+- Consultar a fila de ocorrências não resolvidas e filtrar por status.
+- Abrir detalhes e atualizar o status de uma ocorrência.
+- Cada mudança real de status gera um registro de Atendimento com usuário responsável, ocorrência, status anterior e novo, e data. O histórico anterior é mantido.
 
-## Persistência e próxima etapa
+### Administrador
 
-Os usuários, categorias, ocorrências e atendimentos são controlados por serviços Angular com dados locais ou em memória. Não existe API ou banco de dados nesta versão.
+- Consultar o dashboard e filtrar ocorrências por categoria, status, prioridade e região.
+- Gerenciar usuários, categorias e ocorrências por meio das telas administrativas.
+- Consultar estatísticas de resolução, status, urgência e região.
 
-No desenvolvimento futuro do backend, serão implementados:
+O dashboard apresenta quatro indicadores calculados a partir dos dados: **total de ocorrências**, **em análise**, **em andamento** e **resolvidas**.
 
-- API para os dados do sistema.
-- Banco de dados.
-- Cadastro e autenticação reais.
-- Autorização de cada perfil.
-- Persistência permanente das ocorrências e atendimentos.
+## Entidades e relacionamentos
 
-## Integrantes do grupo
+O frontend representa quatro entidades de negócio:
+
+- **Usuário**: nome, e-mail, perfil e situação.
+- **Categoria**: nome e situação.
+- **Ocorrência**: título, descrição, endereço, urgência, prioridade, status, confirmações e foto opcional.
+- **Atendimento**: registro de uma mudança de status, com data, status anterior e novo.
+
+Os relacionamentos são feitos por identificadores:
+
+- Um Usuário pode registrar várias Ocorrências; cada Ocorrência referencia o usuário autor por `usuarioId`.
+- Uma Categoria pode classificar várias Ocorrências; cada Ocorrência referencia a categoria por `categoriaId`.
+- Uma Ocorrência pode ter vários Atendimentos; cada Atendimento referencia a ocorrência por `ocorrenciaId`.
+- Um Usuário pode ser responsável por vários Atendimentos; cada Atendimento referencia o responsável por `usuarioId`.
+
+O diagrama de classes, incluindo entidades, atributos, enumerações e cardinalidades, está em [diagrama-classes.mmd](diagrama-classes.mmd).
+
+## Persistência e limitações conhecidas
+
+Usuários, categorias, ocorrências e atendimentos são persistidos no `localStorage` do navegador. Os dados de exemplo são carregados quando ainda não há uma lista salva; alterações posteriores são mantidas localmente. A sessão de autenticação é armazenada separadamente em `sessionStorage`.
+
+Essa persistência é restrita ao navegador e dispositivo utilizados: não há sincronização entre usuários ou dispositivos, nem API ou banco de dados centralizado. Limpar os dados do navegador remove as informações locais; o armazenamento também está sujeito à capacidade disponível no navegador.
+
+Limitações funcionais conhecidas:
+
+- O mapa é ilustrativo: os marcadores não correspondem a geocodificação ou posições geográficas reais.
+- A tela **Minhas Ocorrências** ainda não filtra pelo cidadão da sessão e apresenta a lista global.
+- A autenticação é simulada e não deve ser usada como mecanismo real de segurança.
+
+## Estrutura do repositório
+
+- `Cidade-em-Dia/`: aplicação Angular e documentação específica do frontend.
+- `diagrama-classes.mmd`: diagrama das entidades e seus relacionamentos.
+
+Consulte [Cidade-em-Dia/README.md](Cidade-em-Dia/README.md) para detalhes sobre a organização do frontend.
+
+## Integrantes
 
 - Kauan Ribeiro — 273006.
 - Otávio Siqueira Freire dos Santos — 273524.
