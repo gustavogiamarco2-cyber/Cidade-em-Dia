@@ -1,0 +1,24 @@
+services:
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: cidadeemdia
+      MYSQL_USER: ${DB_USER:?Set DB_USER in the environment}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in the environment}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD in the environment}
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - cidadeemdia_mysql_data:/var/lib/mysql
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - mysqladmin ping --host=127.0.0.1 --user=root --password="$${MYSQL_ROOT_PASSWORD}" --silent
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+volumes:
+  cidadeemdia_mysql_data:
